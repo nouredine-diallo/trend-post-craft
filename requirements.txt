@@ -1,0 +1,21 @@
+# Moteur de Données
+polars
+fastexcel
+pdfplumber
+
+# Backend & API
+fastapi
+uvicorn
+python-multipart    # Obligatoire pour uploader des fichiers avec FastAPI
+python-dotenv       # Pour lire le fichier .env
+
+# IA & Validation
+pydantic
+tenacity
+requests
+
+# Observabilité
+loguru
+
+# Frontend
+streamlit
