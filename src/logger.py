@@ -14,3 +14,9 @@ logger.add(
     compression="zip",
     level="INFO"
 )
+
+
+def log_action(file_id: str, action: str, duration: float, success: bool) -> None:
+    """Log an action with its duration and status."""
+    status = "✅ SUCCESS" if success else "❌ FAILED"
+    logger.info(f"[{file_id}] {action} - {status} ({duration:.2f}s)")

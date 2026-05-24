@@ -2,6 +2,9 @@ import os
 
 import polars as pl
 import pdfplumber
+import polars.selectors as cs
+   
+
 
 
 def read_flat_file(path: str) -> pl.DataFrame:
@@ -10,13 +13,17 @@ def read_flat_file(path: str) -> pl.DataFrame:
 
     try:
         if extension == ".csv":
-            return pl.read_csv(path, ignore_errors=True, infer_schema_length=10000)
+            df = pl.read_csv(path, ignore_errors=True, infer_schema_length=10000)
         elif extension in [".xlsx", ".xls"]:
-            return pl.read_excel(path)
+            df = pl.read_excel(path)
         elif extension == ".json":
-            return pl.read_json(path)
+            df = pl.read_json(path)
         else:
             raise ValueError(f"Format de fichier non géré par read_flat_file : {extension}")
+        
+        # CORRECTIF 1 : Nettoyage préventif des noms de colonnes
+        df = df.rename({col: col.strip() for col in df.columns})
+        return df
     except Exception as e:
         raise RuntimeError(f"Erreur lors de la lecture du fichier plat {path} : {str(e)}")
 
@@ -34,7 +41,11 @@ def read_pdf_file(path: str) -> pl.DataFrame:
                     ]
                     headers = cleaned_table[0]
                     rows = cleaned_table[1:]
-                    return pl.DataFrame(rows, schema=headers, orient="row")
+                    df = pl.DataFrame(rows, schema=headers, orient="row")
+                    
+                    # CORRECTIF 1 : Nettoyage préventif des noms de colonnes
+                    df = df.rename({col: col.strip() for col in df.columns})
+                    return df
 
         raise ValueError("Aucun tableau n'a été détecté dans ce PDF.")
     except Exception as e:

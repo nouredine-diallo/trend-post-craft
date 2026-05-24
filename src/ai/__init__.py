@@ -1,1 +1,1 @@
-"""Package des modules IA."""
+"""Package """
