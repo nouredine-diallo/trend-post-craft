@@ -15,6 +15,11 @@ from src.logger import log_action
 # Charger les variables d'environnement (.env)
 load_dotenv()
 
+
+#le plan  la requête arrive avec les infos textes et fichier 
+# le fichier est envoyé vers l'api 
+#l' ia va orchestrer des scripts lorsuqe j'aurai besoin dur resultat d'un script pour avancer si je n'ai pas besoin  du result d'un scripts pour prendre une decision je vais créer un pipeline 
+
 # Création des dossiers nécessaires
 os.makedirs("data/uploads", exist_ok=True)
 os.makedirs("data/cleaned", exist_ok=True)
@@ -24,6 +29,15 @@ app = FastAPI(
     description="API de nettoyage de données assisté par LLM",
     version="1.0.0"
 )
+
+
+#IL faut  un Rate limite pour protéger toutes les apis de mon code  backend  qui va utiliser un outils comme redis  
+# envoyer la  requête  http(car on va mettre dans un conteneur docker) je dois envoyer dans mon header ou mon body le fichier ? 
+#le modèle vasurtout aider à comprendre ce que la personne veut mais il va rédiriger des templates ou des scripts automatique qu'on aura décidé d'où rentre en jeu l'expertise du ml 
+#on sécurité onn  ne  n'accepte jamais ce qui provient de l'extérieur dans notre code comme ça 
+#je dois attraper plus d'érreur qui vont m'aider lors du debbogae mais ces logs ne doivent plus être visible pour un  attaquant 
+#cPOur l'authentification de connexion dans un premier temps j'utiliserai une bibliothèque déjà même si elle collecte des données mais à informer dans politiqueet gestion des données 
+
 
 @app.post("/upload")
 async def upload_document(file: UploadFile = File(...)):
@@ -39,6 +53,9 @@ async def upload_document(file: UploadFile = File(...)):
         return {"file_id": file_id, "filename": file.filename}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Erreur d'upload : {str(e)}")
+
+
+
 
 @app.post("/generate_plan/{file_id}")
 async def plan_cleaning(file_id: str, user_prompt: str):
