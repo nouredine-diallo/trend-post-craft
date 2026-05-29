@@ -18,7 +18,7 @@ load_dotenv()
 
 #le plan  la requête arrive avec les infos textes et fichier 
 # le fichier est envoyé vers l'api 
-#l' ia va orchestrer des scripts lorsuqe j'aurai besoin dur resultat d'un script pour avancer si je n'ai pas besoin  du result d'un scripts pour prendre une decision je vais créer un pipeline 
+#l' ia va orchestrer des scripts lorsuqe j'aurai besoin du resultat d'un script pour avancer si je n'ai pas besoin  du result d'un scripts pour prendre une decision je vais créer un pipeline 
 
 # Création des dossiers nécessaires
 os.makedirs("data/uploads", exist_ok=True)
