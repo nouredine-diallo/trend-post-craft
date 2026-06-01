@@ -85,10 +85,7 @@ def call_llm(prompt: str) -> str:
     reraise=True
 )
 def generate_plan(profile: dict, user_request: str) -> CleaningPlan:
-    """
-    Orchestre la création du prompt, l'appel au LLM et la validation Pydantic.
-    Relance automatiquement .
-    """
+    """appel au LLM et la validation Pydantic."""
     prompt = build_prompt(profile=profile, user_request=user_request)
     raw_response = call_llm(prompt)
 
